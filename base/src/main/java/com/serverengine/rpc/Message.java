@@ -45,7 +45,7 @@ public class Message {
 	{
 		Message msg = new Message();
 		msg.setMessageData(args);
-		msg.setMessageLength(args.length + Integer.SIZE);
+		msg.setMessageLength(args.length + Integer.SIZE/Byte.SIZE);
 		return msg;
 	}
 }

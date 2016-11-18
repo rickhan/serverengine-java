@@ -31,5 +31,20 @@
     	<artifactId>kryo-shaded</artifactId>
     	<version>4.0.0</version>
     </dependency>
+    <dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-api</artifactId>
+    	<version>1.7.5</version>
+    </dependency>
+    <dependency>
+    	<groupId>log4j</groupId>
+    	<artifactId>log4j</artifactId>
+    	<version>1.2.17</version>
+    </dependency>
+    <dependency>
+    	<groupId>biz.paluch.redis</groupId>
+    	<artifactId>lettuce</artifactId>
+    	<version>4.3.0.Final</version>
+    </dependency>
   </dependencies>
 </project>

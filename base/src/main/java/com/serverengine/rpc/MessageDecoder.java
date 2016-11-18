@@ -14,10 +14,12 @@ import io.netty.handler.codec.ByteToMessageDecoder;
  */
 public class MessageDecoder  extends ByteToMessageDecoder{
 
+	private static final int HEAD_SIZE = Integer.SIZE / Byte.SIZE;
+	
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in,
 			List<Object> out) throws Exception {
-		if (in.readableBytes() < Integer.SIZE)
+		if (in.readableBytes() < HEAD_SIZE)
 		{
 			return;
 		}
@@ -30,12 +32,12 @@ public class MessageDecoder  extends ByteToMessageDecoder{
 			return;
 		}
 		
-		if (length > buf.readableBytes())
+		if (length > buf.readableBytes() + HEAD_SIZE)
 		{
 			return;
 		}
 		
-		byte[] data = new byte[length - Integer.SIZE];
+		byte[] data = new byte[length - HEAD_SIZE];
 		buf.readBytes(data);
 		in.readerIndex(in.readerIndex() + buf.readerIndex());
 		out.add(Message.bulidMessage(data));

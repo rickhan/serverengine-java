@@ -30,14 +30,10 @@ public class MethodMgr {
 	 */
 	public void extractPublicVoidMethod(Object inst) {
 		for (Method m : inst.getClass().getDeclaredMethods()) {
-			if (m.isAccessible() == false) {
-				continue;
-			}
-
 			// 加快访问速度
 			m.setAccessible(true);
 			Class<?> retType = m.getReturnType();
-			if (retType == void.class || retType == Void.class) {
+			if (retType != void.class && retType != Void.class) {
 				continue;
 			}
 
