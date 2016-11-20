@@ -54,7 +54,7 @@ public class RpcServer {
 			protected void initChannel(SocketChannel channel) throws Exception {
 				Object clientObj = Proxy.newProxyInstance(
 						client.getClassLoader(), new Class<?>[] { client },
-						new RpcInvocationHandler(channel));
+						new RpcInvocationHandler(serverMethods, channel));
 				RpcChannel rpcChannel = new RpcChannel(serverMethods, clientObj, channel);
 				channel.pipeline().addLast("decoder", new MessageDecoder())
 						.addLast("encoder", new MessageEncoder())

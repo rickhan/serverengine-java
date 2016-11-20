@@ -11,7 +11,13 @@
 	<Gates>
 		<Gate name="gate1" host="127.0.0.1" port="20000" />
 		<Gate name="gate2" host="127.0.0.1" port="20002" />
-		<Gate name="gate1" host="127.0.0.1" port="20004" />
+		<Gate name="gate3" host="127.0.0.1" port="20004" />
 	</Gates>
+	
+	<Dbs>
+		<DbProxy name="db1" host="127.0.0.1" port="30000" />
+		<DbProxy name="db2" host="127.0.0.1" port="30002" />
+		<DbProxy name="db3" host="127.0.0.1" port="30004" />
+	</Dbs>
 
 </Servers>

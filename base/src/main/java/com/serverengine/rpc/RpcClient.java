@@ -29,15 +29,17 @@ public class RpcClient {
 	private Object clientObj;
 	private Bootstrap bootstrap;
 	private boolean shouldStop = false;
+	private Runnable connectedTask;
 
-	public RpcClient(String host, int port, Class<?> server, Class<?> client)
+	public RpcClient(String host, int port, Class<?> server, Class<?> client, Runnable connTask)
 			throws Exception {
 		this.host = host;
 		this.port = port;
+		this.connectedTask = connTask;
 		serverInstance = server.newInstance();
 		serverMethods = new MethodMgr();
 		serverMethods.extractPublicVoidMethod(serverInstance);
-		invokeHandler = new RpcInvocationHandler(null);
+		invokeHandler = new RpcInvocationHandler(serverMethods, null);
 		clientObj = Proxy.newProxyInstance(client.getClassLoader(),
 				new Class<?>[] { client }, invokeHandler);
 
@@ -80,7 +82,7 @@ public class RpcClient {
 
 			public void operationComplete(ChannelFuture cf) throws Exception {
 				if (cf.isSuccess()) {
-
+					connectedTask.run();
 				} else if (shouldStop == false) {
 					stop();
 				}

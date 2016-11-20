@@ -28,8 +28,11 @@ public class RpcInvocationHandler implements InvocationHandler {
 	};
 
 	private Channel channel;
+	
+	private final MethodMgr methodMgr;
 
-	public RpcInvocationHandler(Channel channel) {
+	public RpcInvocationHandler(final MethodMgr methodMgr, Channel channel) {
+		this.methodMgr = methodMgr;
 		this.channel = channel;
 	}
 
@@ -50,9 +53,10 @@ public class RpcInvocationHandler implements InvocationHandler {
 				continue;
 			}
 			
-			if (clazz == CallbackObj.class)
+			if (arg instanceof CallbackObj)
 			{
 				CallbackObj obj = (CallbackObj)arg;
+				methodMgr.addCallbackObj(obj);
 				kryo.writeObjectOrNull(output, obj.getCallbackId(), long.class);
 				continue;
 			}

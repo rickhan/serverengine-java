@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.serverengine</groupId>
-  <artifactId>base</artifactId>
+  <artifactId>gate</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>base</name>
+  <name>gate</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -25,21 +25,6 @@
     	<groupId>io.netty</groupId>
     	<artifactId>netty-all</artifactId>
     	<version>4.0.28.Final</version>
-    </dependency>
-    <dependency>
-    	<groupId>com.esotericsoftware</groupId>
-    	<artifactId>kryo-shaded</artifactId>
-    	<version>4.0.0</version>
-    </dependency>
-    <dependency>
-    	<groupId>dom4j</groupId>
-    	<artifactId>dom4j</artifactId>
-    	<version>1.6.1</version>
-    </dependency>
-    <dependency>
-    	<groupId>log4j</groupId>
-    	<artifactId>log4j</artifactId>
-    	<version>1.2.9</version>
     </dependency>
   </dependencies>
 </project>

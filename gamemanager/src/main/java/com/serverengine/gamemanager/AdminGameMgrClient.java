@@ -13,20 +13,15 @@ import com.serverengine.serverinterface.IGameMgrClient;
  */
 public class AdminGameMgrClient implements IGameMgrClient {
 
-	public void onRegisterGame(boolean result) {
-		assert(false);
-	}
-
-	public void onRegisterGate(boolean result) {
-		assert(false);
-	}
-
-	public void onRegisterAdmin(boolean result) {
-		System.out.print("onRegisterAdmin result=" + result);
-		System.exit(1);
-	}
-
 	public void recevieGameList(ArrayList<ServerInfo> gameList) {
+		assert(false);
+	}
+
+	public void forceShutDown() {
+		
+	}
+
+	public void receiveDBProxyList(ArrayList<ServerInfo> dbList) {
 		assert(false);
 	}
 

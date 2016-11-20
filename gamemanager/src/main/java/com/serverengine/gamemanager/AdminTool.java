@@ -1,6 +1,10 @@
 package com.serverengine.gamemanager;
 
 import com.serverengine.base.App;
+import com.serverengine.base.AppStartupInfo;
+import com.serverengine.base.ServerInfo;
+import com.serverengine.log.Log;
+import com.serverengine.rpc.CallbackObj;
 import com.serverengine.rpc.RpcClient;
 import com.serverengine.serverinterface.IGameMgrService;
 
@@ -11,9 +15,7 @@ import com.serverengine.serverinterface.IGameMgrService;
  * 
  */
 public class AdminTool extends App {
-
-	private RpcClient gameMgrClient;
-
+	
 	public AdminTool(String[] args) throws Exception {
 		super(args);
 	}
@@ -21,12 +23,29 @@ public class AdminTool extends App {
 	@Override
 	public boolean init() {
 		try {
-			gameMgrClient = new RpcClient("127.0.0.1", 8888,
-					AdminGameMgrClient.class, IGameMgrService.class);
-			gameMgrClient.start();
-			while (gameMgrClient.getClient() == null);
-			IGameMgrService service = gameMgrClient.getClient();
-			service.registerAdmin(gameMgrClient.getChannel());
+			ServerInfo serverInfo = AppStartupInfo.gameManagerInfo();
+			gamemanagerClient = new RpcClient(serverInfo.getHost(), serverInfo.getPort(), AdminGameMgrClient.class, IGameMgrService.class,
+					new Runnable() {
+
+						public void run() {
+							IGameMgrService service = getGameMgrService();
+							service.registerAdmin(gamemanagerClient.getChannel(), new CallbackObj() {
+								
+								@SuppressWarnings("unused")
+								public void onCallback(boolean result) {
+									Log.error("操作结果返回=" + result);
+
+									if (result == false) {
+										Log.error("注册失败，可能有多人同时在进行!");
+										System.exit(1);
+									}
+									
+									Log.info("连接gamemanager成功！");
+								}
+							});
+						}
+					});
+			gamemanagerClient.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,12 +54,12 @@ public class AdminTool extends App {
 
 	@Override
 	public boolean stop() {
-		// TODO Auto-generated method stub
+		App.getInstance().getMainGroup().shutdownGracefully();
 		return true;
 	}
 
 	public static void main(String[] args) throws Exception {
-		args = new String[] { "servers.xml", "gamemanager" };
+		//args = new String[] { "servers.xml", "gamemanager" };
 		new AdminTool(args);
 	}
 }

@@ -35,7 +35,7 @@ public class GameManager extends App {
 	
 
 	public static void main(String[] args) throws Exception {
-		args = new String[] {"servers.xml", "gamemanager"};
+		//args = new String[] {"servers.xml", "gamemanager"};
 		new GameManager(args);
 	}
 }

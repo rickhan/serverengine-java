@@ -11,27 +11,6 @@ import com.serverengine.base.ServerInfo;
  *
  */
 public interface IGameMgrClient {
-
-	/**
-	 * 注册逻辑服返回
-	 * 
-	 * @param result
-	 */
-	void onRegisterGame(boolean result);
-	
-	/**
-	 * 注册网关服返回
-	 * 
-	 * @param result
-	 */
-	void onRegisterGate(boolean result);
-	
-	/**
-	 * 注册管理员返回
-	 * 
-	 * @param result
-	 */
-	void onRegisterAdmin(boolean result);
 	
 	/**
 	 * 收取逻辑服列表
@@ -39,4 +18,16 @@ public interface IGameMgrClient {
 	 * @param gameList
 	 */
 	void recevieGameList(ArrayList<ServerInfo> gameList);
+	
+	/**
+	 * 收取数据代理服列表
+	 * 
+	 * @param dbList
+	 */
+	void receiveDBProxyList(ArrayList<ServerInfo> dbList);
+	
+	/**
+	 * 强制关闭
+	 */
+	void forceShutDown();
 }

@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
+import com.serverengine.log.Log;
+
 import io.netty.channel.Channel;
 
 /**
@@ -29,6 +31,11 @@ public class CallbackObj {
 	 */
 	private long generateTime;
 
+	/**
+	 * 函数管理
+	 */
+	private MethodMgr methodMgr;
+	
 	{
 		callbackId = 0L;
 		channel = null;
@@ -60,34 +67,53 @@ public class CallbackObj {
 	}
 
 	public void done(Object... args) {
-		if (channel == null)
-		{
+		if (channel == null) {
 			return;
 		}
-		
+
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		Kryo kryo = ThreadSafeKryo.getKryo();
 		Output output = new Output(stream);
 		kryo.writeObjectOrNull(output, "__rpccallback", String.class); // 第一个参数必定为函数名
-		for (int i = 0; i < args.length; ++i)
-		{
+		kryo.writeObjectOrNull(output, callbackId, long.class); // 第二个参数必定为callbackid
+		for (int i = 0; i < args.length; ++i) {
 			Object arg = args[i];
 			Class<?> clazz = arg.getClass();
-			if (clazz == RpcChannel.class)
-			{
+			if (clazz == RpcChannel.class) {
 				continue;
 			}
-			
-			if (clazz == CallbackObj.class) // 回调中嵌回调，这是不允许的
+
+			if (arg instanceof CallbackObj)
 			{
-				return;
+				CallbackObj obj = (CallbackObj)arg;
+				methodMgr.addCallbackObj(obj);
+				kryo.writeObjectOrNull(output, obj.getCallbackId(), long.class);
+				continue;
 			}
-			
+
 			kryo.writeObjectOrNull(output, arg, clazz);
 		}
 		output.flush();
-		
+
 		Message msg = Message.bulidMessage(stream.toByteArray());
 		channel.writeAndFlush(msg);
 	}
+
+	/**
+	 * 超时
+	 */
+	public void onTimeout() {
+
+	}
+
+	public MethodMgr getMethodMgr() {
+		return methodMgr;
+	}
+
+	public void setMethodMgr(MethodMgr methodMgr) {
+		this.methodMgr = methodMgr;
+	}
+
+	// 回调函数
+	// public void onCallback(Object... args);
 }
