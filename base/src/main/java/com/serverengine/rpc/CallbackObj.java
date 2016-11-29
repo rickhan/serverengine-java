@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
-import com.serverengine.log.Log;
 
 import io.netty.channel.Channel;
 

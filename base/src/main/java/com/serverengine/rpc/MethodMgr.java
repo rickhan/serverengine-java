@@ -1,5 +1,6 @@
 package com.serverengine.rpc;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -61,6 +62,29 @@ public class MethodMgr {
 			om.argTypes = m.getParameterTypes();
 			om.inst = inst;
 			om.returnType = retType;
+			om.method = m;
+			allMethods.put(m.getName(), om);
+		}
+	}
+	
+	public void extractMethodsWithAnnotation(Object inst, Class<? extends Annotation> annotation)
+	{
+		for (Method m : inst.getClass().getDeclaredMethods()) {
+			// 加快访问速度
+			m.setAccessible(true);
+			if (m.getAnnotation(annotation) == null)
+			{
+				continue;
+			}
+			
+			if (allMethods.containsKey(m.getName())) {
+				continue;
+			}
+			
+			ObjectMethod om = new ObjectMethod();
+			om.argTypes = m.getParameterTypes();
+			om.inst = inst;
+			om.returnType = m.getReturnType();
 			om.method = m;
 			allMethods.put(m.getName(), om);
 		}
@@ -155,6 +179,15 @@ public class MethodMgr {
 		obj.setCallbackId(callbackId);
 		callbackObjs.put(callbackId, obj);
 		return callbackId;
+	}
+	
+	/**
+	 * 销毁
+	 */
+	public void release()
+	{
+		callbackObjs.clear();
+		allMethods.clear();
 	}
 
 	/**
