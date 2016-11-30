@@ -3,6 +3,7 @@ package com.serverengine.base;
 import com.serverengine.log.Log;
 import com.serverengine.rpc.RpcClient;
 import com.serverengine.rpc.RpcServer;
+import com.serverengine.serverinterface.IGameClient;
 import com.serverengine.serverinterface.IGameMgrService;
 
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -92,4 +93,16 @@ public abstract class App {
 	 * @return
 	 */
 	public abstract boolean stop();
+	
+	/**
+	 * 获取逻辑服客户端
+	 * 
+	 * @param addr
+	 * @return
+	 */
+	public IGameClient getGameClient(ServerInfo addr)
+	{
+		assert(false);
+		return null;
+	}
 }

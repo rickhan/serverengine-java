@@ -58,8 +58,21 @@ public class Game extends App {
 		App.getInstance().getMainGroup().shutdownGracefully();
 		return true;
 	}
-
+	
+	/**
+	 * 获取逻辑服客户端
+	 * 
+	 * @param addr
+	 * @return
+	 */
+	@Override
+	public IGameClient getGameClient(ServerInfo addr)
+	{
+		return GameService.getInstance().getGameClient(addr);
+	}
+	
 	public static void main(String[] args) throws Exception {
 		new Game(args);
 	}
+	
 }

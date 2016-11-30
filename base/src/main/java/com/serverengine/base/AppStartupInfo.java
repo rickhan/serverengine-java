@@ -145,4 +145,15 @@ public class AppStartupInfo {
 	{
 		return gameManagerInfo;
 	}
+	
+	/**
+	 * 判断是否是同一个服务器
+	 * 
+	 * @param serverInfo
+	 * @return
+	 */
+	public static boolean isSameServer(ServerInfo serverInfo)
+	{
+		return currentServerInfo.equals(serverInfo);
+	}
 }

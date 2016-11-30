@@ -55,6 +55,7 @@ public class MethodMgr {
 			}
 
 			if (allMethods.containsKey(m.getName())) {
+				Log.error("发现同名函数，暂时不支持函数重载！methodName=" + m.getName());
 				continue;
 			}
 
@@ -67,6 +68,12 @@ public class MethodMgr {
 		}
 	}
 	
+	/**
+	 * 提取出带特定注解的函数
+	 * 
+	 * @param inst
+	 * @param annotation
+	 */
 	public void extractMethodsWithAnnotation(Object inst, Class<? extends Annotation> annotation)
 	{
 		for (Method m : inst.getClass().getDeclaredMethods()) {
@@ -77,7 +84,14 @@ public class MethodMgr {
 				continue;
 			}
 			
+			Class<?> retType = m.getReturnType();
+			if (retType != void.class && retType != Void.class) {
+				Log.error("暂时不支持带返回值的函数！methodName=" + m.getName());
+				continue;
+			}
+			
 			if (allMethods.containsKey(m.getName())) {
+				Log.error("发现同名函数，暂时不支持函数重载！methodName=" + m.getName());
 				continue;
 			}
 			

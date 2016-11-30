@@ -79,11 +79,22 @@ public class GameMgrClient implements IGameMgrClient {
 		}
 	}
 
-	public static GameMgrClient getInstance() {
-		return instance;
+	public IGameService getGameService(ServerInfo gameAddr)
+	{
+		RpcClient client = games.get(gameAddr);
+		if (client == null) {
+			return null;
+		}
+		
+		return client.getClient();
 	}
 
 	public void receiveDBProxyList(ArrayList<ServerInfo> dbList) {
 		assert(false);
 	}
+	
+	public static GameMgrClient getInstance() {
+		return instance;
+	}
+
 }

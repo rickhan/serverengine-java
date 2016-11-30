@@ -1,6 +1,6 @@
 package com.serverengine.serverinterface;
 
-import com.serverengine.base.ServerInfo;
+import com.serverengine.base.MailBox;
 
 /**
  * 逻辑服客户端
@@ -10,14 +10,14 @@ import com.serverengine.base.ServerInfo;
  */
 public interface IGameClient {
 	/**
-	 * 转发逻辑服之间的通信
+	 * 转发逻辑服之间的消息
 	 * 
-	 * @param from
-	 * @param to
-	 * @param entityId
+	 * @param caller
+	 * @param target
+	 * @param methodName
 	 * @param args
 	 */
-	void forwardServerMessage(ServerInfo from, ServerInfo to, String entityId, byte[] args);
+	void forwardServerMessage(MailBox caller, MailBox target, String methodName, Object... args);
 	
 	/**
 	 * 发消息到客户端

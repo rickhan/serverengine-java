@@ -1,5 +1,6 @@
 package com.serverengine.serverinterface;
 
+import com.serverengine.base.MailBox;
 import com.serverengine.base.ServerInfo;
 import com.serverengine.rpc.CallbackObj;
 import com.serverengine.rpc.RpcChannel;
@@ -21,6 +22,15 @@ public interface IGameService {
 	void registerGate(RpcChannel channel, ServerInfo gateInfo, CallbackObj callback);
 	
 	/**
+	 * 连接服务器
+	 * 
+	 * @param channel
+	 * @param gateInfo
+	 * @param callback
+	 */
+	void connectServer(RpcChannel channel, ServerInfo gateInfo, CallbackObj callback);
+	
+	/**
 	 * 处理来自客户端的信息
 	 * 
 	 * @param channel
@@ -39,10 +49,10 @@ public interface IGameService {
 	/**
 	 * 来自服务器的消息
 	 * 
-	 * @param from
-	 * @param to
-	 * @param entityId
+	 * @param caller
+	 * @param target
+	 * @param methodName
 	 * @param args
 	 */
-	void handleServerMessage(ServerInfo from, ServerInfo to, String entityId, byte[] args);
+	void handleServerMessage(MailBox caller, MailBox target, String methodName, Object... args);
 }
